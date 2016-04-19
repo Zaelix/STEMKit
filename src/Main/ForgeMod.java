@@ -69,6 +69,7 @@ public class ForgeMod{
 		return newBow;
 	}
 	
+	// Finds the location with a given string in the given file, and creates the content to overwrite the existing file with.
 	public static Object[] findInsertingSpace(Path myFile, String name, String searchString, String insertString, int num, String fileContent) throws IOException{
 		int number_of_lines = 0;
 		
@@ -95,6 +96,7 @@ public class ForgeMod{
 		return values;
 	}
 	
+	// Finishes reading the file's contents and adding them to the new content string before it overwrites the old file.
 	public static String finishRead(Path myFile, int num, String fileContent) throws IOException{		
 		int number_of_lines = 0;
 		InputStream in = Files.newInputStream(myFile);
@@ -114,33 +116,37 @@ public class ForgeMod{
 		return fileContent;
 	}
 	
-	public static Path findFiles() throws FileNotFoundException{
-		Path myPath;
+	// Determines the file paths to be used by the rest of the program.
+	public static Path findDirectory() throws FileNotFoundException{
+		Path myPath = null;
 		
 		File testDrive = new File("E:/Desktop Stuff/Programming/ForgeMod Test Folder/");
-		File dDrive = new File("D:/src/main/java/com/camp/");
-		File eDrive = new File("E:/src/main/java/com/camp/");
-		File fDrive = new File("F:/src/main/java/com/camp/");
-		
 		Path testPath = testDrive.toPath();
-		Path dPath = dDrive.toPath();
-		Path ePath = eDrive.toPath();
-		Path fPath = fDrive.toPath();
 		
-		if (testDrive.isDirectory()){
-			myPath = testPath;
+		for (char letter = 'D'; letter <= 'Z'; letter++){
+			File drive = new File(letter + ":/src/main/java/com/camp/");
+			if (drive.isDirectory()){
+				System.out.println("Found directory in drive " + letter + ":/");
+				myPath = drive.toPath();
+				if(!checkFiles(letter)){
+					System.out.println("Not all files accounted for! Exiting program.");
+					System.exit(1);
+				}
+				break;
+			}
 		}
-		else if (dDrive.isDirectory()){
-			myPath = dPath;
-		}
-		else if (eDrive.isDirectory()){
-			myPath = ePath;
-		}
-		else if (fDrive.isDirectory()){
-			myPath = fPath;
+		
+		if (myPath != null){
+			//System.out.println(myPath);
 		}
 		else{
-			throw new FileNotFoundException("Yikes! All file paths are invalid!");
+			System.out.println("Yikes! All file paths are invalid! Reverting to testPath.");
+			if (testDrive.isDirectory()){
+				myPath = testPath;
+			}
+			else{
+				throw new FileNotFoundException("Test Path Not Valid! Exiting.");
+			}
 		}
 		
 		if (myPath == testPath){
@@ -157,6 +163,33 @@ public class ForgeMod{
 		return myPath;
 	}
 	
+	// Checks whether all the base mod files exist in the given directory
+	public static boolean checkFiles(char drive){
+		boolean result = true;
+		File checkBlock = new File(drive + ":/src/main/java/com/camp/block/BlockRegistry.java");
+		File checkItem = new File(drive + ":/src/main/java/com/camp/item/ItemRegistry.java");
+		File checkMain = new File(drive + ":/src/main/java/com/camp/main/MainRegistry.java");
+		File checkRecipe = new File(drive + ":/src/main/java/com/camp/main/RecipeRegistry.java");
+		if (!checkBlock.isFile()){
+			System.out.println("BlockRegistry not found!");
+			result = false;
+		}
+		if (!checkItem.isFile()){
+			System.out.println("ItemRegistry not found!");
+			result = false;
+		}
+		if (!checkMain.isFile()){
+			System.out.println("MainRegistry not found!");
+			result = false;
+		}
+		if (!checkRecipe.isFile()){
+			System.out.println("RecipeRegistry not found!");
+			result = false;
+		}
+		return result;
+	}
+	
+	// Checks whether the given string has already been added to the file, to avoid duplication of object declaration, initialization, and registry.
 	public static boolean isRedundant(Path myFile, String searchString) throws IOException{
 		InputStream in = Files.newInputStream(myFile);
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -192,8 +225,9 @@ public class ForgeMod{
 		addObject(name, "Item", "Bow", " ");
 	}
 	
+	// Adds the necessary material declaration line to the MainRegistry, if it doesn't already exist.
 	public static void addMaterial(String name, int harvestLevel, int durability, float harvestSpeed, float damage, int enchantability) throws IOException{
-		findFiles();
+		findDirectory();
 		Path typeFile = mainRegistry;
 		
 		String decSearchString = "Material Declaration Space";
@@ -216,8 +250,9 @@ public class ForgeMod{
 		}
 	}
 	
+	// Adds the necessary declarations, initializations, and registrations for all supported object types. This currently includes: swords, bows, and blocks
 	public static void addObject(String name, String category, String type, String material) throws IOException{
-		findFiles();
+		findDirectory();
 		Path typeFile;
 		String initInsertEnd;
 
@@ -290,6 +325,7 @@ public class ForgeMod{
 		}
 	}
 	
+	// Writes the given content string to the specified file. This overwrites any existing file with the new content.
 	public static void writeFile(Path myFile, String fileContent) throws IOException{
 		OutputStream out = Files.newOutputStream(myFile);
 		

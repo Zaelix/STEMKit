@@ -15,51 +15,52 @@ public class ForgeMod{
 	static Path mainRegistry;
 	static Path itemRegistry;
 	static Path blockRegistry;
+	static Path en_US;
 	static String eol = System.getProperty("line.separator");
 	
 	// Defines the content of a new Sword File for use in the writeFile() method
-	public static String createNewSwordContent(String name){
+	public static String createNewSwordContent(String name, String sanitizedName){
 		String newSword = "package com.camp.item;" + eol + "import net.minecraft.item.Item.ToolMaterial;" + eol +  
 				"import net.minecraft.item.ItemSword;" + eol + "import com.camp.lib.Strings;" + eol + 
 				"import com.camp.main.MainRegistry;" + eol + "import net.minecraft.creativetab.CreativeTabs;" + eol + 
-				"public class " + name + "Sword extends ItemSword{" + eol + "	public " + name + "Sword(ToolMaterial material){" + eol + 
+				"public class " + sanitizedName + "Sword extends ItemSword{" + eol + "	public " + sanitizedName + "Sword(ToolMaterial material){" + eol + 
 				"		super(material);" + eol + "		this.setUnlocalizedName(\"" + name +"\");" + eol + 
 				"		this.setCreativeTab(CreativeTabs.tabCombat);" + eol + "		this.setMaxStackSize(1);" + eol + 
-				"		this.setTextureName(Strings.MODID + \":\" + \"" + name + "\");" + eol + "	}" + eol + "}";
+				"		this.setTextureName(Strings.MODID + \":\" + \"" + sanitizedName + "\");" + eol + "	}" + eol + "}";
 		return newSword;
 	}
 	
 	// Defines the content of a new Block File for use in the writeFile() method
-	public static String createNewBlockContent(String name){
+	public static String createNewBlockContent(String name, String sanitizedName){
 		String newBlock = "package com.camp.block;" + eol + "import com.camp.lib.Strings;" + eol + 
 				"import net.minecraft.block.Block;" + eol + "import net.minecraft.block.material.Material;" + eol + 
-				"import net.minecraft.creativetab.CreativeTabs;" + eol + "public class " + name + "Block extends Block{" + eol + 
-				"	protected " + name + "Block(Material p_i45394_1_){" + eol + "		super(p_i45394_1_);" + eol + 
-				"		this.setBlockName(\"" + name + "Block\");" + eol + "		this.setCreativeTab(CreativeTabs.tabBlock);" + eol + 
-				"		this.setBlockTextureName(Strings.MODID + \":\" + \"" + name + "_block\");" + eol + "	}" + eol + "}";
+				"import net.minecraft.creativetab.CreativeTabs;" + eol + "public class " + sanitizedName + "Block extends Block{" + eol + 
+				"	protected " + sanitizedName + "Block(Material p_i45394_1_){" + eol + "		super(p_i45394_1_);" + eol + 
+				"		this.setBlockName(\"" + name + "\");" + eol + "		this.setCreativeTab(CreativeTabs.tabBlock);" + eol + 
+				"		this.setBlockTextureName(Strings.MODID + \":\" + \"" + sanitizedName + "\");" + eol + "	}" + eol + "}";
 		return newBlock;
 	}
 	
 	// Defines the content of a new Bow File for use in the writeFile() method
-	public static String createNewBowContent(String name){
+	public static String createNewBowContent(String name, String sanitizedName){
 		String newBow = "package com.camp.item;" + eol + eol + "import com.camp.lib.Strings;" + eol + 
 				"import cpw.mods.fml.relauncher.Side;" + eol + "import cpw.mods.fml.relauncher.SideOnly;" + eol + 
 				"import net.minecraft.client.renderer.texture.IIconRegister;" + eol + 
 				"import net.minecraft.creativetab.CreativeTabs;" + eol + 
 				"import net.minecraft.entity.player.EntityPlayer;" + eol + "import net.minecraft.item.ItemBow;" + eol + 
 				"import net.minecraft.item.ItemStack;" + eol + "import net.minecraft.util.IIcon;" + eol + eol +
-				"public class " + name + "Bow extends ItemBow{" + eol + 
+				"public class " + sanitizedName + "Bow extends ItemBow{" + eol + 
 				"public static final String[] iconNameArray = new String[] {\"pulling_0\", \"pulling_1\", \"pulling_2\"};" + eol + 
 				"   @SideOnly(Side.CLIENT)" + eol + "	private IIcon[] iconArray;" + eol + 
-				"    private static final String iconString = \"" + name + "Bow\";" + eol + eol + "    public " + name + "Bow()" + eol + 
-				"	{" + eol + "    	this.setUnlocalizedName(\"" + name + "Bow\");" + eol + 
+				"    private static final String iconString = \"" + sanitizedName + "Bow\";" + eol + eol + "    public " + sanitizedName + "Bow()" + eol + 
+				"	{" + eol + "    	this.setUnlocalizedName(\"" + name + "\");" + eol + 
 				"        this.maxStackSize = 1;" + eol + "        this.setMaxDamage(3840);" + eol + 
 				"        this.setCreativeTab(CreativeTabs.tabCombat);" + eol + "    }" + eol + eol + 
 				"    @SideOnly(Side.CLIENT)" + eol + "    public void registerIcons(IIconRegister icon)" + eol + 
-				"    {" + eol + "        this.itemIcon = icon.registerIcon(Strings.MODID + \":\" + \"" + name + "Bow\" + \"_standby\");" + eol + 
+				"    {" + eol + "        this.itemIcon = icon.registerIcon(Strings.MODID + \":\" + \"" + sanitizedName + "Bow\" + \"_standby\");" + eol + 
 				"        this.iconArray = new IIcon[iconNameArray.length];" + eol + 
 				"        for (int i = 0; i < this.iconArray.length; ++i)" + eol + "        {" + eol + 
-				"            this.iconArray[i] = icon.registerIcon(Strings.MODID + \":\" + \"" + name + "Bow\" + \"_\" + iconNameArray[i]);" + eol + 
+				"            this.iconArray[i] = icon.registerIcon(Strings.MODID + \":\" + \"" + sanitizedName + "\" + \"_\" + iconNameArray[i]);" + eol + 
 				"        }" + eol + "    }" + eol + eol + "    @Override" + eol + "    @SideOnly(Side.CLIENT)" + eol + 
 				"    public IIcon getIcon(ItemStack stack, int renderPass, EntityPlayer player, ItemStack usingItem, int useRemaining) {" + eol + 
 				"        if (usingItem == null) { return itemIcon; }" + eol + "        int ticksInUse = stack.getMaxItemUseDuration() - useRemaining;" + eol + 
@@ -120,11 +121,11 @@ public class ForgeMod{
 	public static Path findDirectory() throws FileNotFoundException{
 		Path myPath = null;
 		
-		File testDrive = new File("E:/Desktop Stuff/Programming/ForgeMod Test Folder/");
+		File testDrive = new File("E:/Desktop Stuff/Programming/Java/STEMsation/Minecraft Forge/src/main/java/");
 		Path testPath = testDrive.toPath();
 		
 		for (char letter = 'D'; letter <= 'Z'; letter++){
-			File drive = new File(letter + ":/src/main/java/com/camp/");
+			File drive = new File(letter + ":/src/main/java/");
 			if (drive.isDirectory()){
 				System.out.println("Found directory in drive " + letter + ":/");
 				myPath = drive.toPath();
@@ -149,16 +150,11 @@ public class ForgeMod{
 			}
 		}
 		
-		if (myPath == testPath){
-			mainRegistry = Paths.get(myPath + "/MainRegistry.java");
-			itemRegistry = Paths.get(myPath + "/ItemRegistry.java");
-			blockRegistry = Paths.get(myPath + "/BlockRegistry.java");
-		}
-		else{
-			mainRegistry = Paths.get(myPath + "/main/MainRegistry.java");
-			itemRegistry = Paths.get(myPath + "/item/ItemRegistry.java");
-			blockRegistry = Paths.get(myPath + "/block/BlockRegistry.java");
-		}
+		mainRegistry = Paths.get(myPath + "/com/camp/main/MainRegistry.java");
+		itemRegistry = Paths.get(myPath + "/com/camp/item/ItemRegistry.java");
+		blockRegistry = Paths.get(myPath + "/com/camp/block/BlockRegistry.java");
+		en_US = Paths.get(myPath + "/assets/cm/lang/en_US.lang");
+		
 		campPath = myPath;
 		return myPath;
 	}
@@ -211,18 +207,22 @@ public class ForgeMod{
 	
 	public static void addBlock(String name) throws IOException{
 		addObject(name, "Block", "Block", " ");
+		addLocalizedName("tile", "Block", name);
 	}
 
 	public static void addSword(String name) throws IOException{
 		addObject(name, "Item", "Sword", " ");
+		addLocalizedName("item", "Sword", name);
 	}
 	
 	public static void addSword(String name, String materialName) throws IOException{
 		addObject(name, "Item", "Sword", materialName);
+		addLocalizedName("item", "Sword", name);
 	}
 	
 	public static void addBow(String name) throws IOException{
 		addObject(name, "Item", "Bow", " ");
+		addLocalizedName("item", "Bow", name);
 	}
 	
 	// Adds the necessary material declaration line to the MainRegistry, if it doesn't already exist.
@@ -241,7 +241,7 @@ public class ForgeMod{
 		fileContent = finishRead(typeFile, num, fileContent);
 		
 		if(isRedundant(typeFile, decInsertString)){
-			System.out.println("Material Registration already exists, skipping Main Registry rewrite");
+			System.out.println("Material Registration already exists, skipping Main Registry rewrite.");
 		}
 		else{
 			System.out.println("Updating Main Registry...");
@@ -277,15 +277,17 @@ public class ForgeMod{
 			initInsertEnd = "";
 		}
 		
+		String sanitizedName = sanitizeName(name);
+		
 		// Block Strings
 		String decSearchString = category + " Declaration Space";
-		String decInsertString = "	public static " + category + " " + name.toLowerCase() + type + ";";
+		String decInsertString = "	public static " + category + " " + sanitizedName.toLowerCase() + type + ";";
 		
 		String initSearchString = category + " Initialization Space";
-		String initInsertString = "		"+name.toLowerCase() + type + " = new " + name + type + initInsertEnd;
+		String initInsertString = "		"+sanitizedName.toLowerCase() + type + " = new " + sanitizedName + type + initInsertEnd;
 		
 		String regSearchString = category + " Registration Space";
-		String regInsertString = "		GameRegistry.register" + category + "(" + name.toLowerCase() + type + ", " + name.toLowerCase() + type + ".getUnlocalizedName());";
+		String regInsertString = "		GameRegistry.register" + category + "(" + sanitizedName.toLowerCase() + type + ", " + sanitizedName.toLowerCase() + type + ".getUnlocalizedName());";
 		
 		Object[] temp = findInsertingSpace(typeFile, name, decSearchString, decInsertString, 0, "");
 		String fileContent = (String)temp[0];
@@ -306,22 +308,46 @@ public class ForgeMod{
 		if(isRedundant(typeFile, decInsertString) && 
 				isRedundant(typeFile, initInsertString) &&
 				isRedundant(typeFile, regInsertString)){
-			System.out.println(category + " Registration already exists, skipping " + category + "Registry rewrite");
+			System.out.println(category + " Registration already exists, skipping " + category + "Registry rewrite.");
 		}
 		else{
 			System.out.println("Updating " + category + "Registry...");
 			System.out.println("Opening file: " + typeFile.toString());
 			writeFile(typeFile, fileContent);
 		}
-		System.out.println("Creating " + type + " Class file...");
+		System.out.println("Writing to " + type + " Class file...");
 		if (type == "Block"){
-			writeFile(Paths.get(campPath + "/" + category.toLowerCase() + "/" + name + type + ".java"), createNewBlockContent(name));
+			writeFile(Paths.get(campPath + "/com/camp/" + category.toLowerCase() + "/" + sanitizedName + type + ".java"), createNewBlockContent(name, sanitizedName));
 		}
 		else if (type == "Sword"){
-			writeFile(Paths.get(campPath + "/" + category.toLowerCase() + "/" + name + type + ".java"), createNewSwordContent(name));
+			writeFile(Paths.get(campPath + "/com/camp/" + category.toLowerCase() + "/" + sanitizedName + type + ".java"), createNewSwordContent(name, sanitizedName));
 		}
 		else if (type == "Bow"){
-			writeFile(Paths.get(campPath + "/" + category.toLowerCase() + "/" + name + type + ".java"), createNewBowContent(name));
+			writeFile(Paths.get(campPath + "/com/camp/" + category.toLowerCase() + "/" + sanitizedName + type + ".java"), createNewBowContent(name, sanitizedName));
+		}
+	}
+	
+	public static String sanitizeName(String name){
+		String sanitizedName = "";
+		for(int i = 0; i < name.length(); i++){
+			if (name.charAt(i) != ' '){
+				sanitizedName = sanitizedName + name.charAt(i);
+			}
+		}
+		return sanitizedName;
+	}
+	
+	public static void addLocalizedName(String type, String category, String name) throws IOException{
+		String sanitizedName = sanitizeName(name);
+		String fileContent = finishRead(en_US, 0, "");
+		String addString = type + "." + sanitizedName + category + ".name=" + name;
+		if (!isRedundant(en_US, addString)){
+			System.out.println("Adding localized name to en_US.lang...");
+			fileContent = addString + eol + fileContent;
+			writeFile(en_US, fileContent);
+		}
+		else{
+			System.out.println("Localized Name already exists for this " + category + ", Skipping en_US.lang rewrite.");
 		}
 	}
 	
